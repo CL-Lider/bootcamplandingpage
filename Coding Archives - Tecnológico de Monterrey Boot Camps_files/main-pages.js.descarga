@@ -1,0 +1,203 @@
+jQuery(document).ready(function ($) {
+
+    //Check if target section is in view
+    $.fn.isInViewport = function () {
+        var win = $(window);
+        var viewport = {
+            top : win.scrollTop(),
+            left : win.scrollLeft()
+        };
+        viewport.right = viewport.left + (win.innerWidth() || win.width());
+        viewport.bottom = viewport.top + (win.innerHeight() || win.height());
+        var bounds = this.offset();
+        bounds.right = bounds.left + this.outerWidth();
+        bounds.bottom = bounds.top + this.outerHeight();
+        return (!(bounds.left == 0 || viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+    };
+
+    //for navbar with search
+    if( $('#header').hasClass('navbar-v2') ){
+        var $get_info = $('#get_info_sticky');
+        var headerHeight = $('#header').height();
+        $get_info.hide().removeClass('hidden'); //Hide, then remove hidden class to prevent flash
+        $(window).scroll(function(){
+            $get_info.toggle( $(window).scrollTop() > headerHeight );
+        });
+    }
+
+    //Make CTA Sticky-ish in IE which doesn't support position:sticky
+    var msie = navigator.userAgent.indexOf("MSIE ");
+    var cta_visible = $('.get-info-btn-container').is(':visible');
+    if (msie && cta_visible) {
+        $mobile_cta_bar = $('.get-info-btn-container');
+        try {
+            cta_bottom = $mobile_cta_bar.position().top + $mobile_cta_bar.outerHeight(true);
+            $(window).scroll(function () {
+                var scrollPos = $(document).scrollTop();
+                var pos = (scrollPos > cta_bottom) ? 'fixed' : 'static';
+                $mobile_cta_bar.css('position', pos);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    //check if defined
+    if($.isFunction($.fn.owlCarousel) === true) {
+        $('.featured-posts-owl-carousel').owlCarousel({
+            items: 3,
+            navigation: true,
+        });
+    }
+
+    // Main toggle
+   $('.toggle.main-toggle').click(function () {
+        console.log('toggle')
+        var elem = $(this).find('.btn-main-toggle');
+        if (elem.hasClass('active')) {
+            $('.btn-main-toggle, .main-toggle, .btn-sub-toggle, .sub-toggle').removeClass('active');
+            //omit
+            elem.closest('.toggle').find('.btn-main-toggle, .main-toggle, .btn-sub-toggle, .sub-toggle').removeClass('active');
+        } else {
+            //omit
+            $('.btn-main-toggle, .main-toggle, .btn-sub-toggle, .sub-toggle').removeClass('active');
+            elem.addClass('active').parents('.main-toggle').addClass('active');
+        }
+        return false;
+    });
+
+    // Subtoggle (inside of main)
+    $('.btn-sub-toggle').click(function () {
+        var elem = $(this);
+        if (elem.hasClass('active')) {
+            $('.btn-sub-toggle, .sub-toggle').removeClass('active');
+        } else {
+            //$('.btn-sub-toggle, .sub-toggle').removeClass('active');
+            elem.addClass('active').parents('.sub-toggle').addClass('active');
+        }
+        return false;
+    });
+
+
+    if ($('.get-program-info:visible').length == 0) {
+        $('.get-info-btn-container').remove();
+    } else {
+        header_height 		= $('#header').height();
+        $mobile_info_btn 	= $('.get-info-btn-container');
+        $mobile_info_btn.removeClass('visible-xs visible-sm').addClass("hidden");//also should be inline init
+        $(window).scroll(function(e){
+            anyFormVisible = false;
+            $('.get-program-info form').each(function(){
+                if($(this).isInViewport()){
+                    anyFormVisible =  $(this).isInViewport();
+                }
+            });
+            if( $(window).scrollTop() > header_height && !anyFormVisible ){
+                $mobile_info_btn.removeClass('hidden').addClass("visible-xs visible-sm ");
+                $mobile_info_btn.css("position","fixed");//if not set through css
+            } else{
+                $mobile_info_btn.removeClass('visible-xs visible-sm').addClass("hidden");
+            }
+        });
+        $('.get-info-btn-container .btn').click(function () {
+            var offset = $('.get-program-info:visible').last().offset();
+            if (offset) {
+                $('html, body').animate({
+                    scrollTop: offset.top - 90 + 'px'
+                }, 500);
+            } else {
+                console.log('No Visible Form');
+            }
+        });
+    }
+
+    //review read more
+    $('.review .btn-read-more').click(function () {
+        $(this).closest('.review').toggleClass('open');
+    });
+
+    //Testimonails tile
+    $('.testimonial .title').click(function () {
+        var inner =  this.nextElementSibling;
+        var content = inner.lastElementChild;
+        var review = content.lastElementChild;
+        review.className == "review" ? review.className = 'review open' : review.className = 'review';
+    });
+
+    //Menu btn show menu
+	$('button.navbar-toggle').click(function(){
+		$('#bs-example-navbar-collapse-1').fadeToggle( "fast", "linear" );
+	});
+
+	if($('body').hasClass('nav-has-programs-menu')) {
+        // programs menu item
+        $('.navbar-v2 nav.navbar ul.nav > li.dropdown.boot-camps > ul.dropdown-menu > li.menu-item > a').each(function () {
+            $(this).siblings('.dropdown-menu').addClass('sub-dropdown-menu');
+            $(this).attr("aria-haspopup", true);
+            $(this).attr("aria-expanded", false);
+            $(this).attr("data-toggle", "sub-dropdown-menu");
+            $(this).addClass("dropdown-toggle");
+            $(this).parent().parent().addClass("parent-dropdown-menu");
+            $(this).find('.caret:after').each(function () {
+                $(this).css({'-webkit-transform': 'rotate(-90deg)', 'transform': 'rotate(-90deg)', color: 'red'})
+            });
+
+            $(this).click(function (e) {
+                $(this).parent().toggleClass('open');
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+
+        $('.navbar-v2 nav.navbar ul.nav > li.dropdown.programs > ul.dropdown-menu > li.menu-item > a').each(function () {
+            $(this).siblings('.dropdown-menu').addClass('sub-dropdown-menu');
+            $(this).attr("aria-haspopup", true);
+            $(this).attr("aria-expanded", false);
+            $(this).attr("data-toggle", "sub-dropdown-menu");
+            $(this).addClass("dropdown-toggle");
+            $(this).parent().parent().addClass("parent-dropdown-menu");
+            $(this).find('.caret:after').each(function () {
+                $(this).css({'-webkit-transform': 'rotate(-90deg)', 'transform': 'rotate(-90deg)', color: 'red'})
+            });
+
+            $(this).click(function (e) {
+                $(this).parent().toggleClass('open');
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+
+        // program sub-menu style fix
+        $('<style>' +
+            '#header.navbar-v2 .dropdown.open .parent-dropdown-menu .caret::after {-webkit-transform: rotate(-90deg); transform: rotate(-90deg);}' +
+            '#header.navbar-v2 .dropdown.open .parent-dropdown-menu .dropdown.open .caret::after {-webkit-transform: rotate(0); transform: rotate(0);}' +
+            '#header.navbar-v2 nav.navbar ul.nav li.dropdown > ul.dropdown-menu > li.menu-item.open ul{display: block}' +
+            '</style>').appendTo('head');
+    }
+
+    function trilogy_detect_os(){
+        var userAgent = window.navigator.userAgent,
+            platform = window.navigator.platform,
+            macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+            windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+            iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+            os = null;
+        if (macosPlatforms.indexOf(platform) !== -1) {
+            os = 'mac';
+        } else if (iosPlatforms.indexOf(platform) !== -1) {
+            os = 'ios';
+        } else if (windowsPlatforms.indexOf(platform) !== -1) {
+            os = 'win';
+        } else if (/Android/.test(userAgent)) {
+            os = 'android';
+        } else if (!os && /Linux/.test(platform)) {
+            os = 'linux';
+        }
+        return os;
+    }
+    $("body").addClass("d-os-"+trilogy_detect_os());
+
+    //accesbility call out from site improve. For Prod scan
+	$("span .filter-option.pull-left").attr("tabindex", "0");
+
+});

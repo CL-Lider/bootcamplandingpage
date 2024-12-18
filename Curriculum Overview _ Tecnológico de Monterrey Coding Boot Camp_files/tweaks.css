@@ -1,0 +1,226 @@
+/*--- Fonts --- */
+body{
+	-webkit-font-smoothing: antialiased;
+}
+
+.navbar{margin-bottom:0;border-radius: 0;}
+
+
+.navbar .navbar-collapse{text-align:center;}
+.navbar .nav{
+	float:none;
+	margin:0 auto;
+	display:inline-block;
+	height:100%;
+	vertical-align:top;
+}
+
+
+button{font-weight:700;}
+
+.get-info-form .title{font-weight:700}
+
+/* Tweaks for Styling */
+.section-hero,.section-program-info{background-size:cover;}
+
+label.error{color:red;text-align:left;margin-top:-10px;display:block;margin-bottom:10px;}
+form.contact label.error{margin-top:0px;}
+form.contact .form-group{margin-bottom:15px;}
+form.contact .tcpa{line-height:1em;}
+form.contact .tcpa input[type=checkbox]{top:-10px;}
+.apply-now label.error{margin-top:5px;}
+
+.section-quote + p + footer{margin-top:85px;}
+
+
+
+/*--- Application Styling ---*/
+input[type="text"], input[type="email"], input[type="url"], input[type="number"], input[type="tel"], textarea, .styled-select, .styled-select select {
+    width: 100%;
+    height: 32px;
+    padding: 0 18px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #b4b5b4;
+    background: #fff;
+    color: #000;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+
+.input {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 7px 0;
+}
+textarea {
+    width: 100%;
+    padding: 17px;
+    height: auto;
+}
+
+.addr2 {position: relative;}
+.addr2 .city, .addr2 .zip{
+    width: auto;
+    display: inline-block;
+    width: 20%;
+}
+.select.state {
+    width: 20%;
+    padding: 3px 6px;
+    display: inline-block;
+}
+.addr2 p {
+    display: inline-block;
+}
+.apply-now .button {
+    display: block;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/*--- Thank you Styling ---*/
+#thank-you{
+	margin-top:10%;
+	min-height:400px;
+}
+
+#thank-you h2{
+	font-size: 56px;
+}
+
+.page-contained{margin:40px 0;}
+.disclaimer{margin-top:40px;font-size:14px;}
+.section-about{text-align:left;}
+
+/* Stickey Footer */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+footer{margin-top: auto;} 
+
+
+@media screen and (max-width: 768px){
+	.addr2 .select.state{width:25%;}
+	.addr2 .city{width:40% !important;}
+	.addr2 .zip{width:35% !important;}
+	.section-hero h2.title br {
+		display: none;
+	}
+	.section-hero p {
+		font-size: 21px;
+	}
+	#thank-you h2{
+	font-size: 30px;
+	}	
+	#thank-you p{
+	font-size: 16px;
+	}	
+	
+}
+@media screen and (max-width: 799px){
+	.section-hero [class*="col-"] {
+		margin: 20px 0;
+	}
+}
+@media (max-width:992px){ /* Mobile */
+	nav .collapse,nav .collapsing{display:none;}
+	nav .collapse.in{display:block;} 
+	.header-logo img{max-width:100%;}
+	nav ul{width:100%;}
+	.no-padding-mobile{padding:0 !important;}
+	.no-margin-mobile{margin:0 !important;}	
+}
+@media (min-width:992px){ /* Desktop */
+	
+	body:not(.full) .section-featuring, 
+	body:not(.full) .section-quote, 
+	body:not(.full) .section-learn, 
+	body:not(.full) .section-graduates, 
+	body:not(.full) .section-about, 
+	body:not(.full) .section-faq { max-width: none; width: calc(100% - 40px);}	
+	
+	.section-hero .col-md-8{padding-left:50px;}
+	span.address input{width:60%;margin-bottom:10px;}
+	.apply-now .button{margin:15px auto;}
+	
+	.input.select{padding-top:0;}
+	.wider label{margin-top:10px;}
+	
+	.thin label{margin-top:10px;}
+	.thin .first-label{margin-top:20px;}
+	
+	.wider label.why_apply{margin-top:30px;}
+	.input.address{padding-bottom:0}
+	
+	.addr2 > span,.addr2 > div{display:table-cell;vertical-align:top;}
+	
+	.text-md-right{text-align:right;}
+}
+
+.apply-now .TCPA label{font-weight:normal;}
+
+iframe[name="google_conversion_frame"]{position:fixed;}
+
+
+
+
+.modal-phone{font-size:2em;position: relative;bottom: 15px;}
+
+.sa-button-container .confirm{margin-top:0;}
+
+/* Tweaks for Wordpress */
+p:empty {display: none;}
+section + br{display:none;}
+
+
+.get-info-form .button.loading:after {
+    background: none;
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f110";
+    animation: fa-spin 2s infinite linear;
+    font-size: 1em;
+    height: 1em;
+    width: 1em;
+}
+/* fix visual editor image align-right */
+.alignright{
+	float: right !important;
+	padding-left: 20px;
+}
+
+
+/*Make adminbar less instrusive*/
+#wpadminbar:hover{top:0;opacity:1;}
+#wpadminbar{
+	top:-25px;
+	opacity:0.8;
+}
+#wpadminbar #wp-admin-bar-wp-logo {
+    background-color: green;
+}
+/*target blog page only next more button on content sites and overide styles for UX update */
+.load_more_container .load_m_btn{
+
+	width: 100% !important;
+    margin-bottom: 40px !important;
+    margin-top: 40px !important;
+
+}
+
+/* Tweak for new VC plugin version 6* */
+.vc_tta.vc_tta-accordion .vc_tta-controls-icon-position-left .vc_tta-controls-icon{
+	display: block;
+    left: 0!important;
+}

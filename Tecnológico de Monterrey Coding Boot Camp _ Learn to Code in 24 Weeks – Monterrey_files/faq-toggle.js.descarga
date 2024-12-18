@@ -1,0 +1,75 @@
+(function($) {
+    $.fn.faqImageTextMoveImageCol = function(screenSize) {
+        this.each(function () {
+            if(screenSize < 992){
+                if( !$('.image-col', this).parent().is('.desc-container')) {
+                    var img_location_before = '.faq-list';
+                    if($('.desc-container', this).attr('data-img-mobile-location') == 'above-title'){
+                        img_location_before = '.title-wrapper';
+                    }
+                    $('.image-col', this).insertBefore($('.desc-container '+img_location_before, this));
+                }
+            }else{
+                $('.desc-container .image-col', this).insertBefore($('.the-text-col',this));
+            }
+        });
+        return this;
+    };
+    $(document).ready(function() {
+        faqCheckWidth();
+        $(window).resize(faqCheckWidth);
+        function faqCheckWidth() {
+            var screenSize = Math.max( window.innerWidth, $(window).width());
+            $('.faq').faqImageTextMoveImageCol(screenSize);
+        }
+        function faqOpenEvent(_this){
+            var isActiveQ = ($(_this).hasClass('vc_toggle_active'))? true : false;
+            $('.faq-list .vc_toggle.vc_toggle_active .vc_toggle_content').hide(300);
+            $('.faq-list .vc_toggle.vc_toggle_active').removeClass('vc_toggle_active');
+            if(!isActiveQ){
+                $(_this).addClass('vc_toggle_active');
+                $('.faq-list .vc_toggle.vc_toggle_active .vc_toggle_content').show(300);
+            }
+        }
+        $('.faq-list .vc_toggle').click(function () {
+            faqOpenEvent(this);
+        });
+        $('.faq-list .vc_toggle').keypress(function(e) {
+            if (e.which == 32 ||  e.which == 13) {
+                faqOpenEvent(this);
+            }
+        });
+
+        // FAQ Style 3
+        function style_diferent(title){
+            var word = 'Week';
+            word_l = word.toLowerCase();
+            word_u = word.toUpperCase();
+
+            if (title.indexOf(word) >= 0){
+                title_last = word + title.split(word)[1];
+                title = title.split(word)[0];
+
+            } else if (title.indexOf(word_l) >= 0){
+                title_last = word_l + title.split(word_l)[1];
+                title = title.split(word_l)[0];
+
+            } else if (title.indexOf(word_u) >= 0){
+                title_last = word_u + title.split(word_u)[1];
+                title = title.split(word_u)[0];
+
+            } else {
+                title_last = '';
+                title =  title;
+            }
+
+            return [title, title_last];
+        }
+
+        $('.faq-style3 .vc_toggle_title h4').each(function(){
+            var original_title = $(this).text();
+            $(this).text(style_diferent($(this).text())[0]);
+            $("<span class='weeks'>" + style_diferent(original_title)[1] + "</span>").appendTo($(this));
+        });
+    });
+})(jQuery);

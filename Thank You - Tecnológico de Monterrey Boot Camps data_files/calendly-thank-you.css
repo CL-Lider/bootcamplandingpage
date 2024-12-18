@@ -1,0 +1,13 @@
+
+#calendly-thank-you{
+    --calendly-page-bg-color: #ffffff;
+    --calendly-page-h1-color: #0039a6;
+    --calendly-page-h2-color: #0039a6;
+    --calendly-page-sub-title-color: #000000;
+    --calendly-page-phone-color: var(--calendly-page-sub-title-color);
+    --calendly-page-desc-color: #333;
+    --calendly-calendar-section-bg-color: #f4f4f4;
+    --calendly-button-bg-color: #0039a6;
+    --calendly-button-color: #ffffff;
+    --calendly-button-hover-bg-color: #2d76ff;
+}

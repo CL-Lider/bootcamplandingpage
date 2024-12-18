@@ -1,0 +1,31 @@
+.lead_form{overflow:hidden;}
+.lead_form .step{display:none;width:100%;}
+.lead_form .step.active{display:block;}
+label.tcpa span {
+    float: left;
+    margin-left: 20px;
+    top: -25px;
+	text-align:left;	
+	font-size:12px;
+	position: relative;
+}
+
+.tcpa input[type=checkbox]{
+    position: relative;
+    top: -3px;
+	float:left;
+}
+
+.form-get-info select{margin-bottom:15px;}
+.form-get-info label.error{display:block;margin-top:-10px;text-align:center;}
+
+input.error{background-color:#FFB3B3;}
+input.error::-webkit-input-placeholder { color: red;}
+input.error:-ms-input-placeholder { color: red;}
+input.error::-moz-placeholder {color: red;opacity: 1;}
+input.error:-moz-placeholder { color: red;opacity: 1;}
+
+
+form.form-1a .progress-step{display:none;}
+body.form-1a-progress-steps form.form-1a .progress-step{display:block;}
+body.form-1a-progress-steps form.form-1a .progress-percent{display:none;}

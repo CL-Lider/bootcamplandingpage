@@ -1,0 +1,60 @@
+(function($) {
+    $.fn.imageTextMoveImageCol = function(screenSize) {
+        this.each(function () {
+            if(screenSize < 992){
+                if( !$('.image-col', this).parent().is('.desc-container')) {
+                    var img_location_before = '.content';
+                    if($('.desc-container', this).attr('data-img-mobile-location') == 'above-title'){
+                        img_location_before = '.title-wrapper';
+                    }
+                    $('.image-col', this).insertBefore($('.desc-container '+img_location_before, this));
+                }
+            }else{
+                $('.desc-container .image-col', this).insertBefore($('.the-text-col',this));
+            }
+        });
+        return this;
+    };
+    $.fn.imageTextReadMore = function(screenSize) {
+        this.each(function () {
+            var read_more_enable = $('.desc-container', this).attr('data-read-more-enable');
+            if(read_more_enable === 0 || read_more_enable === '0'){ return this; }
+
+            var showAt = $(this).attr('data-showat');
+            if(screenSize < 768) {
+                var readMoreAtr = $(this).attr('data-readmore');
+                if (typeof readMoreAtr != 'undefined' && readMoreAtr === 'mobile') {
+                    $(this).find('.desc-container ul li').hide();
+                    $(this).find('.desc-container ul li ul li').show();
+                    $(this).find('.desc-container ul li').first().show();
+                    var $readMore = $('<a ref="#" class="read-more open" >Read more</a>').click(function () {
+                        $(this).parent('.desc-container').find('ul li:not(:first-child)').slideToggle();
+                        $(this).toggleClass('open').toggleClass('close');
+                        if ($(this).hasClass('close')) {
+                            $(this).text('Close');
+                        } else {
+                            $(this).text('Read more');
+                        }
+                    });
+                    $(this).find('.desc-container').first().append($readMore);
+                    $(this).attr('data-readmore', '');
+                }
+            }else{
+                $(this).find('.desc-container ul li').show();
+                $(this).find('.desc-container a.read-more').remove();
+                $(this).attr('data-readmore', 'mobile');
+            }
+
+        });
+        return this;
+    };
+    $(document).ready(function() {
+        imageTextCheckWidth();
+        $(window).resize(imageTextCheckWidth);
+        function imageTextCheckWidth() {
+            var screenSize = Math.max( window.innerWidth, $(window).width());
+            $('.image-text').imageTextMoveImageCol(screenSize);
+            $('.image-text').imageTextReadMore(screenSize);
+        }
+    });
+})(jQuery);

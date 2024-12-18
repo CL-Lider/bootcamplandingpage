@@ -1,0 +1,86 @@
+jQuery(function($) {
+    $(document).ready(function () {
+
+            if (!$("#lpChatButton-default").length) {
+                var $chatDiv = $('<div id="lpChatButton-default" style="display:none" ></div>')
+                $("body").append($chatDiv);
+            }
+            var systemLiveChatBtns = [
+                {btnId: "lpChatButton-default", clicker: "chatButtonClickDiv"},
+            ];
+            var livechatBtnMonitor;
+            var systemLiveChatBtnClicker;
+            function clickMainLiveChatBtn(e) {
+                var btnClicker = document.getElementById(systemLiveChatBtnClicker);
+                if (btnClicker) {
+                    trilogyTrackingEvent('live-chat', 'click', 'live-chat-btn-clicked');
+                    btnClicker.click();
+                }
+            }
+            function monitorPageLiveChatBtns() {
+                var systemClicker = document.getElementById(systemLiveChatBtnClicker);
+                var displayChatBtns = (systemClicker) ? true : false;
+                if (displayChatBtns){
+                    // hide elements with class when livechat is available
+                    var hideThisTextIfChat = document.getElementsByClassName("hideThisTextIfChat");
+                    for (var i = 0; i < hideThisTextIfChat.length; i++) {
+                        if (hideThisTextIfChat[i]) {
+                            hideThisTextIfChat[i].style.display = "none";
+                        }
+                    }
+                    // show livechat
+                    var pageChatBtns = document.getElementsByClassName("livechatBtnClicker");
+                    var bodyElement = document.getElementsByTagName("body")[0];
+                    if (bodyElement) { bodyElement.classList.add("chat_available"); }
+
+                    for (var i = 0; i < pageChatBtns.length; i++) {
+                        var btnElement = pageChatBtns[i];
+                        if (btnElement) {
+                            btnElement.style.display = "unset";
+                            btnElement.onclick = clickMainLiveChatBtn;
+                            var btnElementParentDiv = btnElement.closest('.livechat-header--wrapping-div');
+                            if (btnElementParentDiv){
+                                btnElementParentDiv.style.flex = "unset";
+                                btnElementParentDiv.style.padding = "inherit";
+                            }
+                        }
+                    }
+                    clearInterval(livechatBtnMonitor);
+                }
+            }
+            function systemLiveChatBtnContainerExists() {
+                var tf = false;
+                for (var i = 0; i < systemLiveChatBtns.length; i++) {
+                    var btnElement = document.getElementById(systemLiveChatBtns[i].btnId);
+                    if (btnElement) {
+                        systemLiveChatBtnClicker = systemLiveChatBtns[i].clicker;
+                        tf = true;
+                        break;
+                    }
+                }
+                return tf;
+            }
+            function initializeLiveChatBtn() {
+                if (systemLiveChatBtnContainerExists() == true) {
+                    livechatBtnMonitor = setInterval(monitorPageLiveChatBtns, 500);
+                }
+            }
+            initializeLiveChatBtn();
+            var timer = setInterval(function () {
+                var mycontrol = document.querySelector(".livechatBtnClicker");
+
+                if (mycontrol) {
+
+                    var chatShow = mycontrol.style.display === "block";
+                    if (chatShow) {
+                        var v5BodyChatBtn = document.getElementsByClassName("chat-entry")[0];
+                        if (v5BodyChatBtn) {
+                            v5BodyChatBtn.style.display = "unset";
+                        }
+                        clearInterval(timer);
+                    }
+                }
+            }, 1000);
+
+    });
+});

@@ -1,0 +1,40 @@
+//Check if target section is in view
+jQuery.fn.isInViewport = function () {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+};
+//**** Scroll function to fade up element at trigger px
+jQuery(window).on('load resize scroll', function () {
+    var $ = jQuery;
+    var screensize = $(window).width();
+    if(screensize < 768) {
+        var hideCTA = false
+        $('.lead_form').each(function (key, value) {
+            if ($(this).isInViewport()) {
+                $('.mobile-sticky-cta').hide();
+                hideCTA = true;
+            }
+        });
+        if ($('#footer').isInViewport()) {
+            $('.mobile-sticky-cta').hide();
+            hideCTA = true;
+        }
+        if(hideCTA == false){
+            $('.mobile-sticky-cta').show();
+        }
+
+    }else{
+        $('.mobile-sticky-cta').hide();
+    }
+
+});
+jQuery(document).ready(function ($) {
+    $('.mobile-sticky-cta button').click(function (event) {
+        event.preventDefault();
+        var currentForm = $('.lead_form').parent().parent();
+        $('html, body').animate({scrollTop: ($(currentForm).offset().top)}, 250);
+    });
+});

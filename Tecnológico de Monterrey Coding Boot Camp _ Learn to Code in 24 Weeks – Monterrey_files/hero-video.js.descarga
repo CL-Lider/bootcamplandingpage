@@ -1,0 +1,38 @@
+var $ = jQuery;
+$(document).ready(function () {
+    var isMobile = false;
+    var appendedVideo = false;
+    checkWidth();
+    $(window).resize(checkWidth);
+    function checkWidth() {
+        var screensize = $(window).width();
+        var hero_mobile_breakpoint = 640;
+        if($('body.tmpl-scss-base-3').length || $('body.base-variation-fb').length){
+            hero_mobile_breakpoint = 767; //matches min-width:768px
+            if(screensize <= hero_mobile_breakpoint){
+                $('#hero-video-player-video').remove();
+                appendedVideo = true; // so it does not append it. 
+            }else{
+                if(!$('#hero-video-player-video').length){
+                    appendedVideo = false;
+                }
+            }
+        }
+        if (screensize > hero_mobile_breakpoint) {
+            isMobile = false;
+            if (appendedVideo == false) {
+                var v_poster = $(".video-container").data('poster');
+                var v_src = $(".video-container").data('src');
+                var v_autoplay = $(".video-container").data('autoplay');
+                var v_loop = $(".video-container").data('loop');
+                var v_width = $(".video-container").data('width');
+                var v_height = $(".video-container").data('height');
+                var v_muted = $(".video-container").data('muted');
+                $(".video-container").append('<video id="hero-video-player-video" width="'+v_width+'" height="'+v_height+'" autoplay="'+v_autoplay+'" loop="'+v_loop+'" muted="'+v_muted+'" poster="'+v_poster+'"><source src="'+v_src+'" /></video>');            }
+            appendedVideo = true;
+        } else {
+            //mobile
+            isMobile = true;
+        }
+    }
+});
